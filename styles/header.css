@@ -1,0 +1,168 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+     font-family: Poppins, sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Header Styles */
+.header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-container {
+    max-width: 2000px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 3.5rem;
+}
+
+/* Logo Section */
+.header-left {
+    display: flex;
+    align-items:flex-start;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo-icon {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.logo-text {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #000000;
+    margin: 0;
+    letter-spacing: -0.0313rem;
+}
+
+/* Header Right Section */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-toggle:hover {
+    background-color: #f1f5f9;
+}
+
+.sun-icon {
+    font-size: 1.25rem;
+    transition: transform 0.2s ease;
+}
+
+.theme-toggle:hover .sun-icon {
+    transform: rotate(180deg);
+}
+
+/* Hamburger Menu */
+.hamburger-menu {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease;
+    display: none;
+    flex-direction: column;
+    gap: 0.25rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.hamburger-menu:hover {
+    background-color: #f1f5f9;
+}
+
+
+
+/* Responsive Design */
+@media (max-width: 1080px) {
+    .header-container {
+        padding: 0 1rem;
+    }
+    
+    .logo-text {
+        font-size: 1.25rem;
+    }
+    
+    .hamburger-menu {
+        display: flex;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        height: 3.5rem;
+        padding: 0 0.75rem;
+    }
+    
+    .logo {
+        gap: 0.5rem;
+    }
+    
+    .logo-icon {
+        font-size: 1.25rem;
+    }
+    
+    .logo-text {
+        font-size: 1.125rem;
+    }
+    
+    .sun-icon {
+        font-size: 1.125rem;
+    }
+    
+    .hamburger-menu {
+        padding: 0.375rem;
+    }
+    
+    .hamburger-line {
+        width: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-text {
+        font-size: 1rem;
+    }
+    
+    .header-right {
+        gap: 0.5rem;
+    }
+}
