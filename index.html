@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="./styles/header.css">
     <link rel="stylesheet" href="./styles/main.css">
     <link rel="stylesheet" href="./styles/form.css">
+    <link rel="stylesheet" href="./styles/dashboard.css">
 
     <title>Student Finance Tracker</title>
 </head>
@@ -101,6 +102,24 @@
                 <section id="dashboard" class="content-section active">
                     <h2>Dashboard</h2>
                     <p>Welcome to the Student Finance Tracker Dashboard Menes, here you will get insights into your financial activities!</p>
+                     <div class="stats-grid">
+                        <div class="stat-card">
+                            <p class="stat-label">Total Spending (Expenses)</p>
+                            <p class="stat-value">$<span id="total-spending">0.00</span></p>
+                        </div>
+                        <div class="stat-card">
+                            <p class="stat-label">Total Income</p>
+                            <p class="stat-value">$<span id="total-income">0.00</span></p>
+                        </div>
+                        <div class="stat-card">
+                            <p class="stat-label">Net Balance</p>
+                            <p class="stat-value">$<span id="net-balance">0.00</span></p>
+                        </div>
+                        <div class="stat-card">
+                            <p class="stat-label">Top Expense Category</p>
+                            <p class="stat-value"><span id="top-category">N/A</span></p>
+                        </div>
+                    </div>
                 </section>
 
 
@@ -239,5 +258,6 @@
     </main>
 <script src="./scripts/main.js"></script>
 <script src="./scripts/forms.js"></script>
+<script src="./scripts/dashboard.js"></script>
 </body>
 </html>

@@ -1,0 +1,49 @@
+/* Dashboard Section Styles */
+.stats-grid {
+    display: grid;
+    /* Responsive grid: fits as many 200px columns as possible, then stretches them. */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem; /* Increased gap for better spacing */
+}
+
+/* Individual Stat Card Styling */
+.stat-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.stat-label {
+    font-size: 0.875rem; /* 14px */
+    font-weight: 500;
+    color: #64748b; /* Lighter slate color */
+}
+
+.stat-value {
+    font-family: 'Arvo', serif; /* A different font for numbers */
+    font-size: 1.875rem; /* 30px */
+    font-weight: 700;
+    color: #0f172a; /* Darkest slate color */
+    line-height: 1.2;
+}
+
+/* Specific color for Net Balance */
+#net-balance.positive {
+    color: #16a34a; /* Green for positive */
+}
+
+#net-balance.negative {
+    color: #dc2626; /* Red for negative */
+}
+
