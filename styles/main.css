@@ -120,10 +120,11 @@ body {
 /* Sections area */
 
 .content{
-    font-family: Inter;
+    font-family: Poppins, sans-serif;
+    letter-spacing: -0.0313rem;
 }
 .content h2{
-    font-weight: 900;
+    font-weight: 750;
     letter-spacing: -0.5px;
     color: #000000;
 }

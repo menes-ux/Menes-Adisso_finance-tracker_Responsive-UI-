@@ -14,6 +14,7 @@
    
     <link rel="stylesheet" href="./styles/header.css">
     <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/form.css">
 
     <title>Student Finance Tracker</title>
 </head>
@@ -104,6 +105,113 @@
 
 
 
+                <section id="add-edit" class="content-section">
+                    <h2>Add New Transaction</h2>
+                    <p>Here you can add a new transaction to your financial records.</p>
+                    <form id="transaction-form" class="transaction-form">
+                        <!-- Transaction Type -->
+                        <div class="form-group">
+                            <label for="transaction-type" class="form-label">Transaction Type *</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="transaction-type" value="income" id="income" required>
+                                    <span class="radio-custom"></span>
+                                    <span class="radio-text">Income/Stipend</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="transaction-type" value="expense" id="expense" required>
+                                    <span class="radio-custom"></span>
+                                    <span class="radio-text">Expense</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-grid-container">
+                            <div class="form-left-column">
+                                <!-- Amount -->
+                                <div class="form-group">
+                                    <label for="amount" class="form-label">Amount ($)</label>
+                                    <input type="number" id="amount" name="amount" class="form-input" 
+                                           step="0.01" min="0" placeholder="0.00" required>
+                                    <span class="error-message" id="amount-error"></span>
+                                </div>
+
+                                <!-- Description -->
+                                <div class="form-group">
+                                    <label for="description" class="form-label">Description</label>
+                                    <input type="text" id="description" name="description" class="form-input" 
+                                           placeholder="What did you spend on?" required>
+                                    <span class="error-message" id="description-error"></span>
+                                </div>
+
+                                <!-- Date -->
+                                <div class="form-group">
+                                    <label for="date" class="form-label">Date</label>
+                                    <input type="date" id="date" name="date" class="form-input" required>
+                                    <span class="error-message" id="date-error"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-right-column">
+                                <!-- Category (only for expenses) -->
+                                <div class="form-group" id="category-group" style="display: none;">
+                                    <label for="category" class="form-label">Category</label>
+                                    <input type="text" id="category" name="category" class="form-input category-input" 
+                                           placeholder="Select or type category" readonly>
+                                    <span class="error-message" id="category-error"></span>
+                                    
+                                    <div class="category-buttons-grid">
+                                        <button type="button" class="category-button" data-category="Transport">
+                                            <svg class="category-icon" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
+                                                <path d="M240-200q-50 0-85-35t-35-85q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T280-320q0-17-11.5-28.5T240-360q-17 0-28.5 11.5T200-320q0 17 11.5 28.5T240-280Zm520-40q-50 0-85-35t-35-85q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35Zm0-80q17 0 28.5-11.5T800-400q0-17-11.5-28.5T760-440q-17 0-28.5 11.5T720-400q0 17 11.5 28.5T760-360ZM200-440v-320q0-33 23.5-56.5T280-840h160q33 0 56.5 23.5T520-760v80h280q33 0 56.5 23.5T880-600v160q0 33-23.5 56.5T800-360H520v80q0 33-23.5 56.5T440-200H280q-33 0-56.5-23.5T200-280v-160Zm80-240v240h160v-240H280Zm240 160h320v-160H520v160Z"/>
+                                            </svg>
+                                            <span>Transport</span>
+                                        </button>
+                                        <button type="button" class="category-button" data-category="Coffee">
+                                            <svg class="category-icon" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
+                                                <path d="M280-200h320q33 0 56.5-23.5T680-280v-40H240v40q0 33 23.5 56.5T280-200Zm-40-120h480q33 0 56.5-23.5T800-400v-200q0-33-23.5-56.5T720-680H240q-33 0-56.5 23.5T160-600v200q0 33 23.5 56.5T240-320Zm40-80v-200h480v200H280Zm-40 80h560-560Z"/>
+                                            </svg>
+                                            <span>Coffee</span>
+                                        </button>
+                                        <button type="button" class="category-button" data-category="Shopping">
+                                            <svg class="category-icon" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
+                                                <path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40Z"/>
+                                            </svg>
+                                            <span>Shopping</span>
+                                        </button>
+                                        <button type="button" class="category-button" data-category="Rent">
+                                            <svg class="category-icon" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
+                                                <path d="M160-200v-560q0-33 23.5-56.5T240-840h320q33 0 56.5 23.5T640-760v160h80q33 0 56.5 23.5T800-520v320q0 33-23.5 56.5T720-120H240q-33 0-56.5-23.5T160-200Zm80 0h480v-320H240v320Zm0-400h320v-160H240v160Zm0 0v-160 160Z"/>
+                                            </svg>
+                                            <span>Rent</span>
+                                        </button>
+                                        <button type="button" class="category-button" data-category="Entertainment">
+                                            <svg class="category-icon" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
+                                                <path d="M160-200v-560q0-33 23.5-56.5T240-840h320q33 0 56.5 23.5T640-760v160h80q33 0 56.5 23.5T800-520v320q0 33-23.5 56.5T720-120H240q-33 0-56.5-23.5T160-200Zm80 0h480v-320H240v320Zm0-400h320v-160H240v160Zm0 0v-160 160Z"/>
+                                            </svg>
+                                            <span>Entertainment</span>
+                                        </button>
+                                        <button type="button" class="category-button" data-category="Health">
+                                            <svg class="category-icon" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
+                                                <path d="M440-280h80v-160h160v-80H520v-160h-80v160H280v80h160v160Zm40 200q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/>
+                                            </svg>
+                                            <span>Health</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Transaction</button>
+                            <button type="button" class="btn btn-secondary" id="clear-form">Clear Form</button>
+                        </div>
+                    </form>
+                </section>
+
+
+
 
                 <section id="records" class="content-section">
                     <h2>Record Table</h2>
@@ -129,6 +237,7 @@
             
         </div>
     </main>
-
+<script src="./scripts/main.js"></script>
+<script src="./scripts/forms.js"></script>
 </body>
 </html>
