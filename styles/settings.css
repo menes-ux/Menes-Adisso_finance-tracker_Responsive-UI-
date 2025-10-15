@@ -1,0 +1,73 @@
+.settings-container {
+    max-width: 600px;
+}
+
+.setting-item {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.setting-label {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 0.25rem;
+}
+
+.setting-description {
+    font-size: 0.875rem;
+    color: #64748b;
+    margin-bottom: 1rem;
+}
+
+.setting-control {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.setting-control .form-input {
+    flex-grow: 1;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-primary {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #333333;
+}
+
+.saved-message {
+    display: block;
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    min-height: 1.25em; /* Prevent layout shift */
+}
+
+/* For ARIA live region */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+

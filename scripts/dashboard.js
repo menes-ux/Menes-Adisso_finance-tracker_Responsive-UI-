@@ -1,93 +1,102 @@
-// This script handles the logic for the dashboard statistics.
+import { loadBudget } from './storage.js';
 
 class Dashboard {
     constructor(transactionForm) {
-        // We pass in the form instance to get the initial records.
         this.transactionForm = transactionForm;
-
-        // Get references to the HTML elements that will display the stats.
-        this.totalSpendingEl = document.getElementById('total-spending');
-        this.totalIncomeEl = document.getElementById('total-income');
-        this.netBalanceEl = document.getElementById('net-balance');
+        
+        // DOM elements for the dashboard
+        this.totalExpensesEl = document.getElementById('total-expenses');
+        this.totalRecordsEl = document.getElementById('total-records');
         this.topCategoryEl = document.getElementById('top-category');
-
+        this.budgetRemainingEl = document.getElementById('budget-remaining');
+        this.budgetTotalEl = document.getElementById('budget-total');
+        this.budgetStatusEl = document.getElementById('budget-status');
+        
+        this.budget = 0; // Initialize budget property
         this.init();
     }
 
     init() {
-        // This is the "Radio Receiver". It tunes into the 'recordsUpdated' broadcast.
-        // When it hears the broadcast, it calls the this.update method.
-        document.addEventListener('recordsUpdated', (event) => {
-            const updatedRecords = event.detail; // The new list of records from the broadcast.
-            this.update(updatedRecords);
+        this.budget = loadBudget(); // Load initial budget from storage
+        
+        // Initial update with current data
+        this.update(this.transactionForm.getRecords());
+        
+        // Listen for when records are updated (e.g., new transaction added)
+        document.addEventListener('recordsUpdated', (e) => this.update(e.detail));
+        
+        // NEW: Listen for when the budget is updated from the settings page
+        document.addEventListener('budgetUpdated', (e) => {
+            this.budget = e.detail.newBudget;
+            this.update(this.transactionForm.getRecords()); // Re-run calculations with new budget
         });
-
-        // Perform an initial update when the page first loads.
-        const initialRecords = this.transactionForm.getRecords();
-        this.update(initialRecords);
     }
 
-    // The main method to calculate and display all statistics.
     update(records) {
-        if (!records) return;
-
-        // --- Calculations ---
-        const totalIncome = this.calculateTotal(records, 'income');
-        const totalSpending = this.calculateTotal(records, 'expense');
-        const netBalance = totalIncome - totalSpending;
-        const topCategory = this.findTopCategory(records);
+        const expenses = records.filter(r => r.type === 'expense');
+        const totalExpenses = expenses.reduce((sum, r) => sum + r.amount, 0);
         
-        // --- Display Updates ---
-        this.totalIncomeEl.textContent = totalIncome.toFixed(2);
-        this.totalSpendingEl.textContent = totalSpending.toFixed(2);
-        this.netBalanceEl.textContent = netBalance.toFixed(2);
-        this.topCategoryEl.textContent = topCategory;
-
-        // Update the color of the net balance based on its value.
-        this.netBalanceEl.classList.toggle('positive', netBalance >= 0);
-        this.netBalanceEl.classList.toggle('negative', netBalance < 0);
-    }
-
-    // A helper method to calculate total income or expenses.
-    calculateTotal(records, type) {
-        return records
-            .filter(record => record.type === type)
-            .reduce((sum, record) => sum + record.amount, 0);
-    }
-
-    // A helper method to find the most frequent expense category.
-    findTopCategory(records) {
-        const expenseRecords = records.filter(record => record.type === 'expense' && record.category);
+        this.totalRecordsEl.textContent = records.length;
+        this.totalExpensesEl.textContent = `$${totalExpenses.toFixed(2)}`;
+        this.topCategoryEl.textContent = this.calculateTopCategory(expenses);
         
-        if (expenseRecords.length === 0) {
-            return 'N/A';
+        // NEW: Update budget display and ARIA live region
+        this.updateBudgetDisplay(totalExpenses);
+    }
+    
+    updateBudgetDisplay(totalExpenses) {
+        if (this.budget > 0) {
+            const remaining = this.budget - totalExpenses;
+            const remainingText = `$${remaining.toFixed(2)}`;
+            
+            this.budgetRemainingEl.textContent = remainingText;
+            this.budgetTotalEl.textContent = `Budget: $${this.budget.toFixed(2)}`;
+            
+            // Update color based on remaining amount
+            this.budgetRemainingEl.classList.remove('over-budget', 'near-budget'); // reset classes
+            if (remaining < 0) {
+                this.budgetRemainingEl.classList.add('over-budget');
+            } else if (remaining < this.budget * 0.1) { // If less than 10% remains
+                this.budgetRemainingEl.classList.add('near-budget');
+            }
+
+            // Update ARIA live region
+            let statusMessage = `You have ${remainingText} remaining in your budget.`;
+            // Set politeness level based on status
+            if (remaining < 0) {
+                this.budgetStatusEl.setAttribute('aria-live', 'assertive');
+                statusMessage = `Warning: You are $${Math.abs(remaining).toFixed(2)} over budget.`;
+            } else {
+                this.budgetStatusEl.setAttribute('aria-live', 'polite');
+            }
+            this.budgetStatusEl.textContent = statusMessage;
+
+        } else {
+            this.budgetRemainingEl.textContent = 'N/A';
+            this.budgetTotalEl.textContent = 'Budget: Not Set';
         }
+    }
 
-        // Create a frequency map to count each category.
-        const categoryCounts = expenseRecords.reduce((acc, record) => {
-            acc[record.category] = (acc[record.category] || 0) + 1;
+    calculateTopCategory(expenses) {
+        if (expenses.length === 0) return 'N/A';
+        
+        const categoryCount = expenses.reduce((acc, r) => {
+            if (r.category) { // Ensure category exists
+                acc[r.category] = (acc[r.category] || 0) + r.amount;
+            }
             return acc;
         }, {});
+        
+        if (Object.keys(categoryCount).length === 0) return 'N/A';
 
-        // Find the category with the highest count.
-        let topCategory = 'N/A';
-        let maxCount = 0;
-        for (const category in categoryCounts) {
-            if (categoryCounts[category] > maxCount) {
-                maxCount = categoryCounts[category];
-                topCategory = category;
-            }
-        }
-        return topCategory;
+        return Object.keys(categoryCount).reduce((a, b) => categoryCount[a] > categoryCount[b] ? a : b);
     }
 }
 
-// Initialize when DOM is loaded, after the form has been initialized.
 document.addEventListener('DOMContentLoaded', () => {
-    // Ensure window.transactionForm exists before initializing the dashboard.
+    // Make sure transactionForm is available on the window object first
     if (window.transactionForm) {
         new Dashboard(window.transactionForm);
-    } else {
-        console.error('TransactionForm not initialized before Dashboard.');
     }
 });
+

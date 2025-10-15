@@ -1,12 +1,10 @@
-// This module's ONLY job is to talk to the browser's localStorage. 
-// It has no other logic, and does not interact with the DOM.
-// It works like a memory cache for the records.
+// This module's ONLY job is to talk to the browser's localStorage.
 
 const RECORDS_KEY = 'studentFinanceRecords';
+const BUDGET_KEY = 'studentFinanceBudget'; // New key for the budget
 
 /**
  * Loads the records from localStorage.
- * @returns {Array} The array of records, or an empty array if none are found.
  */
 export function loadRecords() {
     try {
@@ -20,7 +18,6 @@ export function loadRecords() {
 
 /**
  * Saves the records to localStorage.
- * @param {Array} records The array of records to save.
  */
 export function saveRecords(records) {
     try {
@@ -28,5 +25,20 @@ export function saveRecords(records) {
     } catch (error) {
         console.error('Error saving records:', error);
     }
+}
+
+/**
+ * NEW: Loads the budget from localStorage.
+ */
+export function loadBudget() {
+    const stored = localStorage.getItem(BUDGET_KEY);
+    return stored ? parseFloat(stored) : 0;
+}
+
+/**
+ * NEW: Saves the budget to localStorage.
+ */
+export function saveBudget(amount) {
+    localStorage.setItem(BUDGET_KEY, String(amount));
 }
 

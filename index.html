@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="./styles/main.css">
     <link rel="stylesheet" href="./styles/form.css">
     <link rel="stylesheet" href="./styles/dashboard.css">
+    <link rel="stylesheet" href="./styles/settings.css">
 
     <title>Student Finance Tracker</title>
 </head>
@@ -100,26 +101,29 @@
                 <!-- Here the id must match the data-section attribute of the button -->
                  <!-- So basically each section will be linked to the appropriate button and the content will be displayed accordingly -->
                 <section id="dashboard" class="content-section active">
-                    <h2>Dashboard</h2>
-                    <p>Welcome to the Student Finance Tracker Dashboard Menes, here you will get insights into your financial activities!</p>
-                     <div class="stats-grid">
+                    <h2 class="section-title">Dashboard</h2>
+                    <div class="stats-grid">
                         <div class="stat-card">
-                            <p class="stat-label">Total Spending (Expenses)</p>
-                            <p class="stat-value">$<span id="total-spending">0.00</span></p>
+                            <span class="stat-label">Total Expenses</span>
+                            <span class="stat-value" id="total-expenses">$0.00</span>
                         </div>
                         <div class="stat-card">
-                            <p class="stat-label">Total Income</p>
-                            <p class="stat-value">$<span id="total-income">0.00</span></p>
+                            <span class="stat-label">Total Records</span>
+                            <span class="stat-value" id="total-records">0</span>
                         </div>
                         <div class="stat-card">
-                            <p class="stat-label">Net Balance</p>
-                            <p class="stat-value">$<span id="net-balance">0.00</span></p>
+                            <span class="stat-label">Top Category</span>
+                            <span class="stat-value" id="top-category">N/A</span>
                         </div>
-                        <div class="stat-card">
-                            <p class="stat-label">Top Expense Category</p>
-                            <p class="stat-value"><span id="top-category">N/A</span></p>
+                        <div class="stat-card budget-card">
+                            <span class="stat-label">Budget Remaining</span>
+                            <span class="stat-value" id="budget-remaining">N/A</span>
+                            <div class="budget-details">
+                                <span id="budget-total">Budget: Not Set</span>
+                            </div>
                         </div>
                     </div>
+                    <div id="budget-status" class="visually-hidden" aria-live="polite" role="status"></div>
                 </section>
 
 
@@ -249,8 +253,18 @@
 
 
                 <section id="settings" class="content-section">
-                    <h2>Settings</h2>
-                    <p>Manage your application settings here.</p>
+                    <h2 class="section-title">Settings</h2>
+                    <div class="settings-container">
+                        <div class="setting-item">
+                            <label for="budget-input" class="setting-label">Monthly Budget ($)</label>
+                            <p class="setting-description">Set a monthly spending goal to track your progress.</p>
+                            <div class="setting-control">
+                                <input type="number" id="budget-input" class="form-input" placeholder="e.g., 500.00" step="0.01" min="0">
+                                <button id="save-budget-btn" class="btn btn-primary">Save Budget</button>
+                            </div>
+                            <span id="budget-saved-msg" class="saved-message"></span>
+                        </div>
+                    </div>
                 </section>
              </div>
             
@@ -262,5 +276,6 @@
     <script src="./scripts/validators.js" type="module"></script>
     <script src="./scripts/forms.js" type="module"></script>
     <script src="./scripts/dashboard.js" type="module"></script>
+    <script src="./scripts/settings.js" type="module"></script>
 </body>
 </html>

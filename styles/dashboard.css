@@ -47,3 +47,17 @@
     color: #dc2626; /* Red for negative */
 }
 
+
+.budget-details {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: 0.25rem;
+}
+
+.stat-value.over-budget {
+    color: #dc2626; /* Red */
+}
+
+.stat-value.near-budget {
+    color: #f59e0b; /* Amber/Orange */
+}
