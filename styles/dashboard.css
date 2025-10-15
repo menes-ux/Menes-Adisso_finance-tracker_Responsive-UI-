@@ -61,3 +61,188 @@
 .stat-value.near-budget {
     color: #f59e0b; /* Amber/Orange */
 }
+
+
+/* Styles for the budget trend chart */
+.trend-section {
+    margin-top: 2rem;
+}
+
+.subsection-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #1e293b;
+}
+
+.chart-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end; /* Aligns bars to the bottom */
+    height: 150px;
+    padding: 1rem;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+}
+
+.chart-bar-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 12%;
+    text-align: center;
+}
+
+.chart-bar {
+    width: 100%;
+    background-color: #000000;
+    border-radius: 4px 4px 0 0;
+    transition: height 0.3s ease-in-out;
+}
+
+.chart-bar:hover {
+    background-color: #4a4a4a;
+}
+
+.chart-label {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: 0.5rem;
+}
+
+.chart-value {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 4px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.chart-bar-wrapper:hover .chart-value {
+    opacity: 1;
+}
+
+
+
+/* Dashboard Styles */
+.section-title {
+    font-size: 2rem;
+    font-weight: 750;
+    color: #000000;
+    margin-bottom: 2rem;
+    letter-spacing: -0.5px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.budget-card .stat-value.over-budget {
+    color: #ef4444;
+}
+
+.budget-card .stat-value.near-budget {
+    color: #f59e0b;
+}
+
+.budget-details {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+/* Trend Chart Styles */
+.trend-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    margin-bottom: 2rem;
+}
+
+.subsection-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 1.5rem;
+}
+
+.chart-container {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    height: 200px;
+    padding: 1rem 0;
+    gap: 0.5rem;
+}
+
+
+.chart-bar-wrapper {
+    display: flex;
+    flex-direction: column; /* Back to column */
+    justify-content: flex-end; /* Align content to the bottom of the wrapper */
+    align-items: center;
+    width: 12%;
+    text-align: center;
+    height: 100%;
+}
+
+.chart-bar {
+    width: 100%;
+    background-color: #000000;
+    border-radius: 4px 4px 0 0;
+    transition: height 0.3s ease-in-out;
+}
+
+.chart-bar:hover {
+    background-color: #4a4a4a;
+}
+
+.chart-label {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: 0.5rem; /* This will now correctly create space above the label */
+}
+
+.chart-value {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 4px; /* This will now correctly create space below the value */
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.chart-bar-wrapper:hover .chart-value {
+    opacity: 1;
+}
+

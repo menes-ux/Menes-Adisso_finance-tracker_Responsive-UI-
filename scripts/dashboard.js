@@ -11,6 +11,7 @@ class Dashboard {
         this.budgetRemainingEl = document.getElementById('budget-remaining');
         this.budgetTotalEl = document.getElementById('budget-total');
         this.budgetStatusEl = document.getElementById('budget-status');
+        this.chartContainer = document.getElementById('trend-chart');
         
         this.budget = 0; // Initialize budget property
         this.init();
@@ -39,9 +40,55 @@ class Dashboard {
         this.totalRecordsEl.textContent = records.length;
         this.totalExpensesEl.textContent = `$${totalExpenses.toFixed(2)}`;
         this.topCategoryEl.textContent = this.calculateTopCategory(expenses);
-        
-        // NEW: Update budget display and ARIA live region
+
+        // Update budget display and ARIA live region
         this.updateBudgetDisplay(totalExpenses);
+        // Update the trend chart
+        this.updateTrendChart(expenses);
+    }
+
+    updateTrendChart(expenses) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Normalize to start of day
+
+        // 1. Create an array of the last 7 days (as Date objects)
+        const last7Days = Array.from({ length: 7 }, (_, i) => {
+            const day = new Date(today);
+            day.setDate(today.getDate() - i);
+            return day;
+        }).reverse(); // Reverse to have today be the last day
+
+        // 2. Calculate total spending for each of those 7 days
+        const dailyTotals = last7Days.map(day => {
+            const dayString = day.toISOString().split('T')[0];
+            const total = expenses
+                .filter(e => e.date === dayString)
+                .reduce((sum, e) => sum + e.amount, 0);
+            return {
+                date: day,
+                total: total
+            };
+        });
+
+        // 3. Find the maximum spending in the last 7 days to scale the bars
+        const maxSpending = Math.max(...dailyTotals.map(d => d.total));
+        
+        // 4. Build the HTML for the chart
+        this.chartContainer.innerHTML = ''; // Clear previous chart
+        
+        dailyTotals.forEach(dayData => {
+            const barHeight = maxSpending > 0 ? (dayData.total / maxSpending) * 100 : 0;
+            const dayLabel = dayData.date.toLocaleDateString('en-US', { weekday: 'short' });
+
+            const barWrapper = document.createElement('div');
+            barWrapper.className = 'chart-bar-wrapper';
+            barWrapper.innerHTML = `
+                <div class="chart-value">$${dayData.total.toFixed(2)}</div>
+                <div class="chart-bar" style="height: ${barHeight}%;"></div>
+                <div class="chart-label">${dayLabel}</div>
+            `;
+            this.chartContainer.appendChild(barWrapper);
+        });
     }
     
     updateBudgetDisplay(totalExpenses) {
@@ -89,14 +136,18 @@ class Dashboard {
         
         if (Object.keys(categoryCount).length === 0) return 'N/A';
 
-        return Object.keys(categoryCount).reduce((a, b) => categoryCount[a] > categoryCount[b] ? a : b);
+         return Object.keys(categoryCount).reduce((a, b) => categoryCount[a] > categoryCount[b] ? a : b);
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Make sure transactionForm is available on the window object first
+// Wait for both DOM and transactionForm to be ready
+function initDashboard() {
     if (window.transactionForm) {
-        new Dashboard(window.transactionForm);
+        window.dashboard = new Dashboard(window.transactionForm);
+    } else {
+        // If transactionForm isn't ready yet, wait a bit and try again
+        setTimeout(initDashboard, 100);
     }
-});
+}
 
+document.addEventListener('DOMContentLoaded', initDashboard);
