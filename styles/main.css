@@ -189,3 +189,67 @@ body {
     justify-content: flex-end;
     gap: 1rem;
 }
+
+/* Responsive side bars */
+.mobile-overlay {
+    position: fixed;
+    top: 3.5rem; /* Start below the header */
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1400; /* Below the sidebar but above the content */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+}
+
+body.sidebar-mobile-open .mobile-overlay {
+    opacity: 1;
+    pointer-events: auto; /* Allow clicks only when visible */
+}
+
+/* This is the media query from your header.css that shows the hamburger */
+@media (max-width: 1080px) {
+    .sidebar {
+        /* On mobile, change how the sidebar is positioned */
+        position: fixed;
+        left: 0;
+        top: 3.5rem; /* Align it perfectly under your header */
+        z-index: 1500; /* Make sure it's on top of everything */
+        
+        /* Start it off-screen to the left */
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    /* This is the magic rule! When the body has our special class... */
+    body.sidebar-mobile-open .sidebar {
+        /* ...slide the sidebar into view */
+        transform: translateX(0);
+    }
+}
+
+/* Animation styles */
+.content-section {
+    display: none;
+    /* --- Animation Properties --- */
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+.content-section.active {
+    display: block;
+}
+
+/* ---Keyframe Animation for the Fade-In Effect --- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
