@@ -3,7 +3,9 @@
 A responsive, accessible, and vanilla JavaScript application for tracking student expenses.  
 This project was built as a summative assignment.
 
-**Live Demo:** [https://YOUR_GITHUB_USERNAME.github.io/YOUR_REPO_NAME/](https://YOUR_GITHUB_USERNAME.github.io/YOUR_REPO_NAME/) *(to be filled)*
+**Live Demo:** [https://menes-ux.github.io/Menes-Adisso_finance-tracker_Responsive-UI-/]
+
+**Video link** [...]
 
 ---
 
@@ -49,7 +51,7 @@ The application is fully navigable using only a keyboard.
 
 ---
 
-## Accessibility (a11y) Notes
+## Accessibility (any) Notes
 
 - **Semantic HTML:** Uses `<header>`, `<nav>`, `<main>`, `<section>`, and `<footer>` for clear structure.  
 - **ARIA Live Regions:** Budget status (`aria-live="polite"` or `assertive`) and search result count (`role="status"`) are announced by screen readers.  
@@ -64,4 +66,9 @@ The regular expression validators can be tested independently:
 
 1. **Clone this repository**  
    ```bash
-   git clone https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME.git
+   git clone https://menes-ux.github.io/Menes-Adisso_finance-tracker_Responsive-UI-/
+2. **Open the test.html file in you web browser**  
+
+3. **Inspect the browser’s developer console (F12 or Ctrl/Cmd + Shift + I) to view assertion results.**  
+   
+© 2025 Student Finance Tracker — Built with Vanilla JavaScript
