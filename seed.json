@@ -1,102 +1,103 @@
 [
   {
-    "id": "rec_0001",
-    "description": "Lunch at campus cafeteria",
-    "amount": 12.50,
-    "category": "Food",
-    "date": "2025-10-10",
-    "type": "expense",
-    "createdAt": "2025-10-10T12:00:00Z",
-    "updatedAt": "2025-10-10T12:00:00Z"
-  },
-  {
-    "id": "rec_0002",
-    "description": "Part-time job payment",
-    "amount": 350.00,
-    "category": null,
-    "date": "2025-10-09",
-    "type": "income",
-    "createdAt": "2025-10-09T18:00:00Z",
-    "updatedAt": "2025-10-09T18:00:00Z"
-  },
-  {
-    "id": "rec_0003",
-    "description": "New Chemistry textbook",
-    "amount": 89.99,
-    "category": "Books",
-    "date": "2025-10-08",
-    "type": "expense",
-    "createdAt": "2025-10-08T10:30:00Z",
-    "updatedAt": "2025-10-08T10:30:00Z"
-  },
-  {
-    "id": "rec_0004",
-    "description": "Monthly bus pass",
-    "amount": 45.00,
-    "category": "Transport",
+    "id": "rec_1729068610000_abc123",
+    "description": "Monthly rent payment",
+    "amount": 450,
+    "category": "Rent",
     "date": "2025-10-01",
     "type": "expense",
-    "createdAt": "2025-10-01T08:00:00Z",
-    "updatedAt": "2025-10-01T08:00:00Z"
+    "createdAt": "2025-10-01T10:00:00.000Z",
+    "updatedAt": "2025-10-01T10:00:00.000Z"
   },
   {
-    "id": "rec_0005",
-    "description": "Coffee with friends - tricky string with  extra spaces ",
-    "amount": 8.75,
-    "category": "Entertainment",
-    "date": "2025-10-11",
-    "type": "expense",
-    "createdAt": "2025-10-11T15:00:00Z",
-    "updatedAt": "2025-10-11T15:00:00Z"
-  },
-  {
-    "id": "rec_0006",
-    "description": "Movie night tickets",
-    "amount": 25.00,
-    "category": "Entertainment",
-    "date": "2025-10-12",
-    "type": "expense",
-    "createdAt": "2025-10-12T20:00:00Z",
-    "updatedAt": "2025-10-12T20:00:00Z"
-  },
-  {
-    "id": "rec_0007",
-    "description": "Sold old video game",
-    "amount": 20.00,
+    "id": "rec_1729068620000_def456",
+    "description": "Student loan stipend",
+    "amount": 750,
     "category": null,
-    "date": "2025-10-13",
+    "date": "2025-10-02",
     "type": "income",
-    "createdAt": "2025-10-13T11:00:00Z",
-    "updatedAt": "2025-10-13T11:00:00Z"
+    "createdAt": "2025-10-02T11:30:00.000Z",
+    "updatedAt": "2025-10-02T11:30:00.000Z"
   },
   {
-    "id": "rec_0008",
-    "description": "Groceries for the week",
-    "amount": 55.43,
-    "category": "Food",
-    "date": "2025-10-13",
+    "id": "rec_1729068630000_ghi789",
+    "description": "Grocery shopping for the week",
+    "amount": 55.75,
+    "category": "Shopping",
+    "date": "2025-10-03",
     "type": "expense",
-    "createdAt": "2025-10-13T17:00:00Z",
-    "updatedAt": "2025-10-13T17:00:00Z"
+    "createdAt": "2025-10-03T14:00:00.000Z",
+    "updatedAt": "2025-10-03T14:00:00.000Z"
   },
   {
-    "id": "rec_0009",
-    "description": "Phone bill payment",
-    "amount": 35.00,
-    "category": "Utilities",
+    "id": "rec_1729068640000_jkl012",
+    "description": "Bus pass for October",
+    "amount": 35,
+    "category": "Transport",
+    "date": "2025-10-04",
+    "type": "expense",
+    "createdAt": "2025-10-04T09:00:00.000Z",
+    "updatedAt": "2025-10-04T09:00:00.000Z"
+  },
+  {
+    "id": "rec_1729068650000_mno345",
+    "description": "Coffee with friends",
+    "amount": 8.50,
+    "category": "Coffee",
+    "date": "2025-10-06",
+    "type": "expense",
+    "createdAt": "2025-10-06T16:20:00.000Z",
+    "updatedAt": "2025-10-06T16:20:00.000Z"
+  },
+  {
+    "id": "rec_1729068660000_pqr678",
+    "description": "New textbook for chemistry",
+    "amount": 120.99,
+    "category": "Shopping",
+    "date": "2025-10-08",
+    "type": "expense",
+    "createdAt": "2025-10-08T12:00:00.000Z",
+    "updatedAt": "2025-10-08T12:00:00.000Z"
+  },
+  {
+    "id": "rec_1729068670000_stu901",
+    "description": "Movie night",
+    "amount": 15,
+    "category": "Entertainment",
+    "date": "2025-10-10",
+    "type": "expense",
+    "createdAt": "2025-10-10T20:00:00.000Z",
+    "updatedAt": "2025-10-10T20:00:00.000Z"
+  },
+  {
+    "id": "rec_1729068680000_vwx234",
+    "description": "Freelance work payment",
+    "amount": 200,
+    "category": null,
+    "date": "2025-10-11",
+    "type": "income",
+    "createdAt": "2025-10-11T18:00:00.000Z",
+    "updatedAt": "2025-10-11T18:00:00.000Z"
+  },
+  {
+    "id": "rec_1729068690000_yza567",
+    "description": "Dinner at a restaurant",
+    "amount": 25.50,
+    "category": "Entertainment",
     "date": "2025-10-14",
     "type": "expense",
-    "createdAt": "2025-10-14T09:00:00Z",
-    "updatedAt": "2025-10-14T09:00:00Z"
+    "createdAt": "2025-10-14T19:30:00.000Z",
+    "updatedAt": "2025-10-14T19:30:00.000Z"
   },
   {
-    "id": "rec_0010",
-    "description": "Birthday gift from parents",
-    "amount": 100.00,
-    "category": null,
+    "id": "rec_1729068700000_bcd890",
+    "description": "Gym membership",
+    "amount": 40,
+    "category": "Health",
     "date": "2025-10-15",
-    "type": "income",
-    "createdAt": "2025-10-15T13:00:00Z",
-    "updatedAt": "2025-10-15T13:00:00Z"
+    "type": "expense",
+    "createdAt": "2025-10-15T08:00:00.000Z",
+    "updatedAt": "2025-10-15T08:00:00.000Z"
   }
 ]
+
