@@ -253,3 +253,26 @@ body.sidebar-mobile-open .mobile-overlay {
     }
 }
 
+/* This is the accessibility styles */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #0f172a;
+    color: white;
+    padding: 8px;
+    z-index: 3000;
+    transition: top 0.3s;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* This adds a highly visible blue ring around any focused element */
+*:focus-visible {
+    outline: 3px solid #f6f33b;
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
