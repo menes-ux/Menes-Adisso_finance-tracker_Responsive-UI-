@@ -154,7 +154,7 @@ class TransactionForm {
         document.dispatchEvent(new CustomEvent('recordsUpdated', { detail: this.records }));
     }
     
-    // --- NEW: A public method to replace all data at once ---
+    
     replaceAllRecords(newRecords) {
         this.records = newRecords; // Replace the in-memory array
         saveRecords(this.records);  // Save the new array to localStorage

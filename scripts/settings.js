@@ -16,7 +16,7 @@ class Settings {
         this.saveCurrencyBtn = document.getElementById('save-currency-btn');
         this.currencySavedMsg = document.getElementById('currency-saved-msg');
         
-        // NEW: Elements for Import/Export
+  
         this.exportBtn = document.getElementById('export-btn');
         this.importBtn = document.getElementById('import-btn');
         this.importFileInput = document.getElementById('import-file-input');
@@ -42,7 +42,7 @@ class Settings {
         this.saveBudgetBtn.addEventListener('click', () => this.handleSaveBudget());
         this.saveCurrencyBtn.addEventListener('click', () => this.handleSaveCurrency());
         
-        // NEW: Listen for clicks on the new Import and Export buttons.
+
         this.exportBtn.addEventListener('click', () => this.handleExport());
         this.importBtn.addEventListener('click', () => this.importFileInput.click()); // This opens the file picker
         this.importFileInput.addEventListener('change', (e) => this.handleImport(e));
@@ -68,7 +68,7 @@ class Settings {
         document.dispatchEvent(new CustomEvent('currencyUpdated', { detail: { newSettings: settings } }));
     }
 
-    // NEW: Logic to handle exporting data
+
     handleExport() {
         const records = this.transactionForm.getRecords();
         const dataStr = JSON.stringify(records, null, 2); // The '2' makes the JSON file readable
@@ -83,7 +83,6 @@ class Settings {
         URL.revokeObjectURL(url); // Clean up the URL object
     }
     
-    // NEW: Logic to handle importing data
     handleImport(event) {
         const file = event.target.files[0];
         if (!file) return;
@@ -109,7 +108,6 @@ class Settings {
         reader.readAsText(file);
     }
     
-    // NEW: A simple validator to check the imported file's structure.
     isValidData(records) {
         // It must be an array, and the first item (if it exists) must have an 'id' and an 'amount'.
         return Array.isArray(records) && (!records.length || (records[0].id && typeof records[0].amount === 'number'));

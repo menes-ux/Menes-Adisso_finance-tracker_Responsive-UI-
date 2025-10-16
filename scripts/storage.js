@@ -1,6 +1,6 @@
 const RECORDS_KEY = 'studentFinanceRecords';
 const BUDGET_KEY = 'studentFinanceBudget';
-const CURRENCY_KEY = 'studentFinanceCurrency'; // New key for currency settings
+const CURRENCY_KEY = 'studentFinanceCurrency'; 
 
 /**
  * Loads the records from localStorage.
@@ -41,10 +41,7 @@ export function saveBudget(budget) {
     localStorage.setItem(BUDGET_KEY, budget);
 }
 
-/**
- * --- NEW: Loads currency settings from localStorage ---
- * Returns default settings if none are found.
- */
+
 export function loadCurrencySettings() {
     const defaults = {
         active: 'USD',
@@ -70,9 +67,7 @@ export function loadCurrencySettings() {
     }
 }
 
-/**
- * --- NEW: Saves currency settings to localStorage ---
- */
+
 export function saveCurrencySettings(settings) {
     try {
         localStorage.setItem(CURRENCY_KEY, JSON.stringify(settings));
