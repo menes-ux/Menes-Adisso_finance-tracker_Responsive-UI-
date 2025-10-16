@@ -284,6 +284,34 @@
                             </div>
                             <span id="budget-saved-msg" class="saved-message"></span>
                         </div>
+                        <div class="setting-item">
+                            <h3 class="setting-label">Currency</h3>
+                            <p class="setting-description">Select your display currency and set conversion rates from USD.</p>
+                            <div class="setting-control">
+                                <label for="currency-select">Display Currency:</label>
+                                <select id="currency-select" class="form-input">
+                                    <option value="USD">USD ($)</option>
+                                    <option value="RWF">RWF (FRw)</option>
+                                    <option value="XOF">XOF (CFA)</option>
+                                </select>
+                            </div>
+                            <div class="currency-rates">
+                                <div class="rate-input">
+                                    <label for="rate-rwf">1 USD to RWF:</label>
+                                    <input type="number" id="rate-rwf" class="form-input" step="0.01" min="0" value="1300">
+                                </div>
+                                <div class="rate-input">
+                                    <label for="rate-xof">1 USD to XOF:</label>
+                                    <input type="number" id="rate-xof" class="form-input" step="0.01" min="0" value="600">
+                                </div>
+                            </div>
+                             <div class="setting-control">
+                                <button id="save-currency-btn" class="btn btn-primary">Save Currency Settings</button>
+                            </div>
+                            <span id="currency-saved-msg" class="saved-message"></span>
+                        </div>
+
+
                     </div>
                 </section>
              </div>

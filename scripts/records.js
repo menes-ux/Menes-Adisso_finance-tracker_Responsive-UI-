@@ -1,9 +1,8 @@
-// --- Here, we are importing the specialist tools for searching ---
 import { compileRegex, highlightMatches } from './search.js';
+import { loadCurrencySettings } from './storage.js';
 
 class Records {
     constructor(transactionForm) {
-        // Here, we are saving references to all the HTML elements we need to talk to.
         this.transactionForm = transactionForm;
         this.container = document.getElementById('records-container');
         this.modal = document.getElementById('delete-modal');
@@ -15,23 +14,39 @@ class Records {
         this.searchErrorMsg = document.getElementById('search-error-msg');
         
         this.recordIdToDelete = null;
-
-        // Here, we are creating a "memory" for the component's state.
         this.searchTerm = '';
         this.isCaseInsensitive = true;
         this.sortState = { key: 'date', order: 'desc' };
+        this.currencySettings = null;
         
         this.init();
     }
 
     init() {
+        this.currencySettings = loadCurrencySettings();
         this.render(this.transactionForm.getRecords());
+
         document.addEventListener('recordsUpdated', (e) => this.render(e.detail));
+        document.addEventListener('currencyUpdated', (e) => {
+            this.currencySettings = e.detail.newSettings;
+            this.render(this.transactionForm.getRecords());
+        });
+
         this.setupEventListeners();
+    }
+    
+    // This is a helper function to format amounts into the selected currency.
+    formatCurrency(amountInUsd) {
+        const { active, rates, symbols } = this.currencySettings;
+        const convertedAmount = amountInUsd * rates[active];
+        
+        if (active === 'USD') {
+            return `${symbols[active]}${convertedAmount.toFixed(2)}`;
+        }
+        return `${Math.round(convertedAmount).toLocaleString()} ${symbols[active]}`;
     }
 
     setupEventListeners() {
-        // Here, we are setting up one "spy" to listen for all clicks inside the records area.
         this.container.addEventListener('click', (e) => {
             const deleteButton = e.target.closest('.delete-btn');
             const editButton = e.target.closest('.edit-btn');
@@ -42,11 +57,9 @@ class Records {
             if (sortButton) this.handleSortClick(sortButton.dataset.sort);
         });
 
-        // Here, we are telling the search inputs to update the table whenever they change.
         this.searchInput.addEventListener('input', () => this.handleSearchChange());
         this.caseToggle.addEventListener('change', () => this.handleSearchChange());
 
-        // Here, we are setting up the listeners for the delete confirmation pop-up.
         this.cancelDeleteBtn.addEventListener('click', () => this.hideModal());
         this.confirmDeleteBtn.addEventListener('click', () => this.handleConfirmDelete());
         this.modal.addEventListener('click', (e) => {
@@ -54,14 +67,12 @@ class Records {
         });
     }
 
-    // Here, we update our memory with the new search term and redraw the table.
     handleSearchChange() {
         this.searchTerm = this.searchInput.value;
         this.isCaseInsensitive = this.caseToggle.checked;
         this.render(this.transactionForm.getRecords());
     }
 
-    // These methods handle the logic for clicking Edit, Delete, and Sort buttons.
     handleDeleteClick(button) {
         this.recordIdToDelete = button.dataset.id;
         this.showModal();
@@ -91,12 +102,10 @@ class Records {
         document.getElementById('add-edit').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // This is the main "drawing" function for the entire component.
     render(records) {
         let recordsToDisplay = records;
         let regex = null;
         
-        // Step 1: Filter the records based on the search term.
         if (this.searchTerm.trim()) {
             regex = compileRegex(this.searchTerm, this.isCaseInsensitive);
             if (regex) {
@@ -110,29 +119,18 @@ class Records {
             this.searchErrorMsg.textContent = '';
         }
 
-        // Step 2: Check if there's anything left to display.
         if (recordsToDisplay.length === 0) {
-            this.container.innerHTML = `<div class="no-records-message">${this.searchTerm ? 'No matching records found.' : 'No transactions yet. Add one to get started!'}</div>`;
+            this.container.innerHTML = `<div class="no-records-message">${this.searchTerm ? 'No matching records found.' : 'No transactions yet.'}</div>`;
             return;
         }
 
-        // Step 3: Sort the filtered records.
         const sortedRecords = this.sortRecords(recordsToDisplay);
-        
-        // Step 4: Build the final HTML for the table and cards.
         const tableHtml = this.createTable(sortedRecords, regex);
         const cardsHtml = this.createCards(sortedRecords, regex);
 
-        // Step 5: Put the final HTML on the page.
-        this.container.innerHTML = `
-            <div class="records-section">
-                ${tableHtml}
-                ${cardsHtml}
-            </div>
-        `;
+        this.container.innerHTML = `<div class="records-section">${tableHtml}${cardsHtml}</div>`;
     }
 
-    // This method contains the logic for sorting the array.
     sortRecords(records) {
         const { key, order } = this.sortState;
         return [...records].sort((a, b) => {
@@ -148,12 +146,12 @@ class Records {
         });
     }
 
-    // This method builds the HTML for the desktop table view.
     createTable(records, regex) {
         const { key: activeKey, order: activeOrder } = this.sortState;
-
         const rows = records.map(record => {
             const highlightedDescription = highlightMatches(record.description, regex);
+            const sign = record.type === 'income' ? '+' : '-';
+            const formattedAmount = this.formatCurrency(record.amount);
             return `
                 <tr>
                     <td>
@@ -161,19 +159,14 @@ class Records {
                         <div class="record-date">${record.date}</div>
                     </td>
                     <td>${record.category ? `<span class="record-category">${record.category}</span>` : ''}</td>
-                    <td class="record-amount ${record.type}">${record.type === 'income' ? '+' : '-'}$${record.amount.toFixed(2)}</td>
+                    <td class="record-amount ${record.type}">${sign}${formattedAmount}</td>
                     <td class="record-actions">
-                        <button class="edit-btn" data-id="${record.id}" aria-label="Edit transaction">
-                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" /></svg>
-                        </button>
-                        <button class="delete-btn" data-id="${record.id}" aria-label="Delete transaction">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
-                        </button>
+                        <button class="edit-btn" data-id="${record.id}" aria-label="Edit transaction"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" /></svg></button>
+                        <button class="delete-btn" data-id="${record.id}" aria-label="Delete transaction"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" /></svg></button>
                     </td>
                 </tr>
             `;
         }).join('');
-
         return `
             <table class="records-table">
                 <thead>
@@ -189,17 +182,16 @@ class Records {
         `;
     }
 
-    // This method builds the HTML for the mobile card view.
     createCards(records, regex) {
         const cards = records.map(record => {
             const highlightedDescription = highlightMatches(record.description, regex);
+            const sign = record.type === 'income' ? '+' : '-';
+            const formattedAmount = this.formatCurrency(record.amount);
             return `
                 <div class="record-card">
                     <div class="record-card-main">
                         <div class="record-description">${highlightedDescription}</div>
-                        <div class="record-amount ${record.type}">
-                            ${record.type === 'income' ? '+' : '-'}$${record.amount.toFixed(2)}
-                        </div>
+                        <div class="record-amount ${record.type}">${sign}${formattedAmount}</div>
                     </div>
                     <div class="record-card-details">
                         <span class="record-date">${record.date}</span>
@@ -212,7 +204,6 @@ class Records {
                 </div>
             `;
         }).join('');
-
         return `<div class="records-cards">${cards}</div>`;
     }
 }

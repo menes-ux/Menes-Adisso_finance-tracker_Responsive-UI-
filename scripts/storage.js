@@ -1,7 +1,6 @@
-// This module's ONLY job is to talk to the browser's localStorage.
-
 const RECORDS_KEY = 'studentFinanceRecords';
-const BUDGET_KEY = 'studentFinanceBudget'; // New key for the budget
+const BUDGET_KEY = 'studentFinanceBudget';
+const CURRENCY_KEY = 'studentFinanceCurrency'; // New key for currency settings
 
 /**
  * Loads the records from localStorage.
@@ -28,7 +27,7 @@ export function saveRecords(records) {
 }
 
 /**
- * NEW: Loads the budget from localStorage.
+ * Loads the budget from localStorage.
  */
 export function loadBudget() {
     const stored = localStorage.getItem(BUDGET_KEY);
@@ -36,9 +35,49 @@ export function loadBudget() {
 }
 
 /**
- * NEW: Saves the budget to localStorage.
+ * Saves the budget to localStorage.
  */
-export function saveBudget(amount) {
-    localStorage.setItem(BUDGET_KEY, String(amount));
+export function saveBudget(budget) {
+    localStorage.setItem(BUDGET_KEY, budget);
+}
+
+/**
+ * --- NEW: Loads currency settings from localStorage ---
+ * Returns default settings if none are found.
+ */
+export function loadCurrencySettings() {
+    const defaults = {
+        active: 'USD',
+        rates: {
+            USD: 1,
+            RWF: 1300,
+            XOF: 600
+        },
+        symbols: {
+            USD: '$',
+            RWF: 'FRw',
+            XOF: 'CFA'
+        }
+    };
+    
+    try {
+        const stored = localStorage.getItem(CURRENCY_KEY);
+        // Merge stored settings with defaults to ensure all keys exist
+        return stored ? { ...defaults, ...JSON.parse(stored) } : defaults;
+    } catch (error) {
+        console.error('Error loading currency settings:', error);
+        return defaults;
+    }
+}
+
+/**
+ * --- NEW: Saves currency settings to localStorage ---
+ */
+export function saveCurrencySettings(settings) {
+    try {
+        localStorage.setItem(CURRENCY_KEY, JSON.stringify(settings));
+    } catch (error) {
+        console.error('Error saving currency settings:', error);
+    }
 }
 
