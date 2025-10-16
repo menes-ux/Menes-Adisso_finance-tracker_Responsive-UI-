@@ -247,7 +247,15 @@
 
                 <section id="records" class="content-section">
                     <h2 class="section-title">Record Table</h2>
-                    <p>Here you can view and manage your financial records.</p>
+                    <div class="search-controls">
+                        <input type="text" id="search-input" class="form-input" placeholder="Enter regex to search descriptions...">
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="case-insensitive-toggle" checked>
+                            <label for="case-insensitive-toggle">Case-Insensitive</label>
+                        </div>
+                    </div>
+                    <div id="search-error-msg" class="search-error" role="alert"></div>
+
                     <div id="records-container">
                         <!-- Responsive table and cards will be rendered here -->
                     </div>

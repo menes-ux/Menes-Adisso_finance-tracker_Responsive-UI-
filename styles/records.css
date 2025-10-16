@@ -197,3 +197,40 @@
 .sort-btn[data-order="asc"] svg {
     transform: rotate(180deg);
 }
+
+
+
+
+.search-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap; /* Allows controls to wrap on small screens */
+}
+
+.search-controls .form-input {
+    flex-grow: 1; /* Make the input take up available space */
+}
+
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.search-error {
+    color: #dc2626; /* Red */
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    min-height: 1.25em; /* Prevent layout shift when error message appears/disappears */
+}
+
+/* This is the style for the yellow highlight on matched text */
+mark {
+    background-color: #fef08a; /* A nice yellow highlight color */
+    color: #713f12; /* A dark brown text color for contrast */
+    padding: 0.1em;
+    border-radius: 3px;
+}
