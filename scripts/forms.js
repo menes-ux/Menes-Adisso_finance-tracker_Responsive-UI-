@@ -1,25 +1,15 @@
-// --- STEP 1: Import the specialist tools ---
-// This tells the manager (this file) to get its tools from the specialist files.
 import { loadRecords, saveRecords } from './storage.js';
 import * as validator from './validators.js';
 
-// The rest of the class is now much cleaner.
 class TransactionForm {
     constructor() {
         this.form = document.getElementById('transaction-form');
-        
-        // --- STEP 2: Use the imported storage tool ---
-        // Instead of calling its own method, it now calls the function from storage.js
         this.records = loadRecords(); 
-        
         this.currentEditId = null;
-        
-        // Storing these once for better performance
         this.descriptionInput = document.getElementById('description');
         this.amountInput = document.getElementById('amount');
         this.categoryInput = document.getElementById('category');
         this.dateInput = document.getElementById('date');
-
         this.submitButton = this.form.querySelector('button[type="submit"]');
         this.init();
     }
@@ -39,20 +29,16 @@ class TransactionForm {
         document.querySelectorAll('.category-button').forEach(button => {
             button.addEventListener('click', (e) => this.selectCategory(e.currentTarget));
         });
-
-        // The event listeners now call a single, smart helper function.
         this.descriptionInput.addEventListener('input', () => this.validateField(this.descriptionInput, validator.validateDescription));
         this.amountInput.addEventListener('input', () => this.validateField(this.amountInput, validator.validateAmount));
         this.categoryInput.addEventListener('input', () => this.validateField(this.categoryInput, (value) => validator.validateCategory(value, this.isExpense())));
         this.dateInput.addEventListener('change', () => this.validateField(this.dateInput, validator.validateDate));
     }
     
-    // This is the new helper function. It runs the check and shows/hides the error.
     validateField(inputElement, validationFunction) {
         const errorElement = document.getElementById(`${inputElement.id}-error`);
-        if (!errorElement) return; // Guard clause
+        if (!errorElement) return true;
         const result = validationFunction(inputElement.value);
-
         if (!result.valid) {
             this.showError(inputElement, errorElement, result.message);
             return false;
@@ -63,14 +49,11 @@ class TransactionForm {
 
     handleSubmit(e) {
         e.preventDefault();
-        
         const isDescriptionValid = this.validateField(this.descriptionInput, validator.validateDescription);
         const isAmountValid = this.validateField(this.amountInput, validator.validateAmount);
         const isCategoryValid = this.validateField(this.categoryInput, (value) => validator.validateCategory(value, this.isExpense()));
         const isDateValid = this.validateField(this.dateInput, validator.validateDate);
-        const isFormValid = isDescriptionValid && isAmountValid && isCategoryValid && isDateValid;
-        
-        if (!isFormValid) return;
+        if (!isDescriptionValid || !isAmountValid || !isCategoryValid || !isDateValid) return;
 
         const formData = new FormData(this.form);
         const now = new Date().toISOString();
@@ -91,31 +74,15 @@ class TransactionForm {
         } else {
             this.records.push(record);
         }
-
-        // Call the imported function from storage.js
         saveRecords(this.records);
-
         this.showSuccessMessage();
         this.clearForm();
         document.dispatchEvent(new CustomEvent('recordsUpdated', { detail: this.records }));
     }
-
-    // --- All Utility Methods are now complete and correct ---
     
-    showError(input, errorElement, message) {
-        input.classList.add('error');
-        errorElement.textContent = message;
-    }
-
-    clearError(input, errorElement) {
-        input.classList.remove('error');
-        errorElement.textContent = '';
-    }
-    
-    isExpense() {
-        const transactionType = document.querySelector('input[name="transaction-type"]:checked');
-        return transactionType && transactionType.value === 'expense';
-    }
+    showError(input, errorElement, message) { input.classList.add('error'); errorElement.textContent = message; }
+    clearError(input, errorElement) { input.classList.remove('error'); errorElement.textContent = ''; }
+    isExpense() { const type = document.querySelector('input[name="transaction-type"]:checked'); return type && type.value === 'expense'; }
 
     toggleCategoryField() {
         const categoryGroup = document.getElementById('category-group');
@@ -139,22 +106,14 @@ class TransactionForm {
         this.validateField(this.categoryInput, (value) => validator.validateCategory(value, this.isExpense()));
     }
 
-    clearCategorySelection() {
-        document.querySelectorAll('.category-button.selected').forEach(b => b.classList.remove('selected'));
-    }
-
-    setDefaultDate() {
-        this.dateInput.value = new Date().toISOString().split('T')[0];
-    }
-
-    generateId() {
-        return `rec_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-    }
+    clearCategorySelection() { document.querySelectorAll('.category-button.selected').forEach(b => b.classList.remove('selected')); }
+    setDefaultDate() { this.dateInput.value = new Date().toISOString().split('T')[0]; }
+    generateId() { return `rec_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`; }
 
     showSuccessMessage() {
         const message = document.createElement('div');
         message.className = 'success-message';
-        message.textContent = this.currentEditId ? 'Transaction updated successfully!' : 'Transaction added successfully!';
+        message.textContent = this.currentEditId ? 'Transaction updated!' : 'Transaction added!';
         this.form.insertBefore(message, this.form.firstChild);
         setTimeout(() => message.remove(), 3000);
     }
@@ -164,60 +123,46 @@ class TransactionForm {
         this.setDefaultDate();
         this.currentEditId = null;
         document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
-        document.querySelectorAll('.form-input.error, .error').forEach(el => el.classList.remove('error'));
+        document.querySelectorAll('.form-input.error').forEach(el => el.classList.remove('error'));
         this.toggleCategoryField();
-
         this.submitButton.textContent = 'Save Transaction';
-
     }
 
-    updateRecordCounter() {
-        document.dispatchEvent(new CustomEvent('recordCountUpdated', { detail: { count: this.records.length } }));
-    }
-
-    getRecords() {
-        return this.records;
-    }
+    updateRecordCounter() { document.dispatchEvent(new CustomEvent('recordCountUpdated', { detail: { count: this.records.length } })); }
+    getRecords() { return this.records; }
 
     editRecord(id) {
-    const record = this.records.find(r => r.id === id);
-    if (!record) return; // Safety check
-
-    // Put the form into "edit mode"
-    this.currentEditId = id;
-    
-    // Fill all the input fields with the record's data
-    this.form.elements['description'].value = record.description;
-    this.form.elements['amount'].value = record.amount;
-    this.form.elements['date'].value = record.date;
-    
-    // Select the correct radio button (income/expense)
-    this.form.elements['transaction-type'].value = record.type;
-    
-    // We need to manually call this to show/hide the category field
-    this.toggleCategoryField(); 
-    
-    // If it was an expense with a category, fill that too
-    if (record.category) {
-        this.form.elements['category'].value = record.category;
-        // Also highlight the correct category button
-        document.querySelector(`.category-button[data-category="${record.category}"]`)?.classList.add('selected');
+        const record = this.records.find(r => r.id === id);
+        if (!record) return;
+        this.currentEditId = id;
+        this.form.elements['description'].value = record.description;
+        this.form.elements['amount'].value = record.amount;
+        this.form.elements['date'].value = record.date;
+        this.form.elements['transaction-type'].value = record.type;
+        this.toggleCategoryField();
+        if (record.category) {
+            this.form.elements['category'].value = record.category;
+            document.querySelector(`.category-button[data-category="${record.category}"]`)?.classList.add('selected');
+        }
+        this.submitButton.textContent = 'Update Transaction';
     }
-    
-    // Change the button text to give the user a clear signal
-    this.submitButton.textContent = 'Update Transaction';
-}
 
     deleteRecord(id) {
         this.records = this.records.filter(r => r.id !== id);
-        // Call the imported function from storage.js
         saveRecords(this.records);
         this.updateRecordCounter();
         document.dispatchEvent(new CustomEvent('recordsUpdated', { detail: this.records }));
     }
+    
+    // --- NEW: A public method to replace all data at once ---
+    replaceAllRecords(newRecords) {
+        this.records = newRecords; // Replace the in-memory array
+        saveRecords(this.records);  // Save the new array to localStorage
+        this.updateRecordCounter(); // Update any counters
+        document.dispatchEvent(new CustomEvent('recordsUpdated', { detail: this.records })); // Broadcast the major update
+    }
 }
 
-// Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.transactionForm = new TransactionForm();
 });

@@ -137,3 +137,73 @@
     max-width: 150px;
 }
 
+/* For the import and export data from json styles */
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.setting-item {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+}
+
+.setting-label {
+    font-size: 1.125rem; /* 18px */
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.setting-description {
+    font-size: 0.875rem;
+    color: #64748b;
+    margin-top: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+.setting-control {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap; /* Allow wrapping */
+}
+
+.saved-message {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: #16a34a; /* Green */
+    font-size: 0.875rem;
+    font-weight: 500;
+    width: 100%; /* Take full width to appear on new line */
+}
+
+/* Currency Form Styles */
+.currency-rates {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+.rate-input {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.rate-input label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #475569;
+}
+
+.rate-input .form-input {
+    max-width: 150px;
+}
+
+
+
