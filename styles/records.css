@@ -147,3 +147,53 @@
     }
 }
 
+/* For the search options */
+/* This makes the header cell itself the container for our button */
+.records-table th {
+    padding: 0; 
+}
+
+/* This styles the button to be clean and fill the header cell */
+.sort-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #64748b;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    width: 100%;
+    padding: 1rem; 
+    text-align: left;
+    transition: background-color 0.2s;
+}
+
+.sort-btn:hover {
+    background-color: #f8fafc;
+}
+
+/* This styles the little arrow icon */
+.sort-btn svg {
+    width: 16px;
+    height: 16px;
+    opacity: 0.5;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+/* This makes the currently active sort button darker */
+.sort-btn.active {
+    color: #0f172a;
+}
+
+.sort-btn.active svg {
+    opacity: 1;
+}
+
+/* This is the magic rule that flips the arrow when sorting A-Z */
+.sort-btn[data-order="asc"] svg {
+    transform: rotate(180deg);
+}
