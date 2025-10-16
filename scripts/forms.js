@@ -20,6 +20,7 @@ class TransactionForm {
         this.categoryInput = document.getElementById('category');
         this.dateInput = document.getElementById('date');
 
+        this.submitButton = this.form.querySelector('button[type="submit"]');
         this.init();
     }
 
@@ -165,6 +166,9 @@ class TransactionForm {
         document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
         document.querySelectorAll('.form-input.error, .error').forEach(el => el.classList.remove('error'));
         this.toggleCategoryField();
+
+        this.submitButton.textContent = 'Save Transaction';
+
     }
 
     updateRecordCounter() {
@@ -176,28 +180,33 @@ class TransactionForm {
     }
 
     editRecord(id) {
-        const record = this.records.find(r => r.id === id);
-        if (!record) return;
+    const record = this.records.find(r => r.id === id);
+    if (!record) return; // Safety check
 
-        this.currentEditId = id;
-        this.descriptionInput.value = record.description;
-        this.amountInput.value = record.amount;
-        this.dateInput.value = record.date;
-        
-        document.getElementById(record.type).checked = true;
-        this.toggleCategoryField();
-        
-        if (record.category) {
-            this.categoryInput.value = record.category;
-            // Also select the button if it exists
-            const categoryButton = document.querySelector(`.category-button[data-category="${record.category}"]`);
-            if (categoryButton) {
-                this.selectCategory(categoryButton);
-            }
-        }
-        
-        document.getElementById('add-edit').scrollIntoView({ behavior: 'smooth' });
+    // Put the form into "edit mode"
+    this.currentEditId = id;
+    
+    // Fill all the input fields with the record's data
+    this.form.elements['description'].value = record.description;
+    this.form.elements['amount'].value = record.amount;
+    this.form.elements['date'].value = record.date;
+    
+    // Select the correct radio button (income/expense)
+    this.form.elements['transaction-type'].value = record.type;
+    
+    // We need to manually call this to show/hide the category field
+    this.toggleCategoryField(); 
+    
+    // If it was an expense with a category, fill that too
+    if (record.category) {
+        this.form.elements['category'].value = record.category;
+        // Also highlight the correct category button
+        document.querySelector(`.category-button[data-category="${record.category}"]`)?.classList.add('selected');
     }
+    
+    // Change the button text to give the user a clear signal
+    this.submitButton.textContent = 'Update Transaction';
+}
 
     deleteRecord(id) {
         this.records = this.records.filter(r => r.id !== id);

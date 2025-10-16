@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="./styles/form.css">
     <link rel="stylesheet" href="./styles/dashboard.css">
     <link rel="stylesheet" href="./styles/settings.css">
+    <link rel="stylesheet" href="./styles/records.css">
 
     <title>Student Finance Tracker</title>
 </head>
@@ -245,8 +246,11 @@
 
 
                 <section id="records" class="content-section">
-                    <h2>Record Table</h2>
+                    <h2 class="section-title">Record Table</h2>
                     <p>Here you can view and manage your financial records.</p>
+                    <div id="records-container">
+                        <!-- Responsive table and cards will be rendered here -->
+                    </div>
                 </section>
 
 
@@ -278,6 +282,19 @@
             
         </div>
     </main>
+
+    <!-- I am adding another div for the user confirmation when deleting a transaction! -->
+      <div id="delete-modal" class="modal-overlay" hidden>
+        <div class="modal-content">
+            <h3 class="modal-title">Confirm Deletion</h3>
+            <p>Are you sure you want to delete this transaction? This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button id="cancel-delete-btn" class="btn btn-secondary">Cancel</button>
+                <button id="confirm-delete-btn" class="btn btn-danger">Confirm Delete</button>
+            </div>
+        </div>
+    </div>
+
     <!-- I almost crashed out just because I forgot to include the type="module" attribute -->
     <script src="./scripts/main.js" type="module"></script>
     <script src="./scripts/storage.js" type="module"></script>
@@ -285,5 +302,6 @@
     <script src="./scripts/forms.js" type="module"></script>
     <script src="./scripts/dashboard.js" type="module"></script>
     <script src="./scripts/settings.js" type="module"></script>
+    <script src="./scripts/records.js" type="module"></script>
 </body>
 </html>
