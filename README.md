@@ -5,6 +5,8 @@ This project was built as a summative assignment.
 
 **Live Demo:** [https://menes-ux.github.io/Menes-Adisso_finance-tracker_Responsive-UI-/]
 
+**Repo link:** [https://github.com/menes-ux/Menes-Adisso_finance-tracker_Responsive-UI-.git]
+
 **Video link** [...]
 
 ---
