@@ -1,0 +1,19 @@
+.about-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-top: 19px;
+}
+
+.about-container p {
+    font-size: 14px;
+    letter-spacing: -0.0313rem;
+}
+
+.about-contact a {
+    color: #96960a;
+    text-decoration: none;
+    font-size: 14px;
+    text-decoration: underline;
+
+}
