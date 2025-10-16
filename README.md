@@ -2,6 +2,7 @@
 
 A responsive, accessible, and vanilla JavaScript application for tracking student expenses.  
 This project was built as a summative assignment.
+Simplistic and straightforward theme!
 
 **Live Demo:** [https://menes-ux.github.io/Menes-Adisso_finance-tracker_Responsive-UI-/]
 
