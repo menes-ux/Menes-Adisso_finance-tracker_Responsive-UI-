@@ -1,1 +1,78 @@
-<!-- This page will be used to test my regex functions -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regex Validator Tests</title>
+    <style>
+        body { font-family: sans-serif; padding: 2rem; background-color: #f4f4f9; color: #333; }
+        h1 { color: #444; }
+        p { font-size: 1.1rem; }
+        code { background-color: #e2e2e2; padding: 2px 5px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>Regular Expression Test Runner</h1>
+    <p>Open the developer console (F12 or Ctrl/Cmd+Shift+I) to see the test results.</p>
+
+    <script>
+        // Simple Test Assertion Function
+        // It checks if two values are equal and logs the result.
+        function assert(description, actual, expected) {
+            if (actual === expected) {
+                console.log(`PASS: ${description}`);
+            } else {
+                console.error(`FAIL: ${description}`);
+                console.log(`   - Expected: ${expected}`);
+                console.log(`   - Got: ${actual}`);
+            }
+        }
+
+        console.log("--- Running Regex Validator Tests ---");
+
+        // 1. Test for leading/trailing whitespace: /^\S(?:.*\S)?$/
+        const descRegex = /^\S(?:.*\S)?$/;
+        console.log("\nTesting Description Regex...");
+        assert("Should match valid description", descRegex.test("Coffee"), true);
+        assert("Should match description with internal spaces", descRegex.test("Bus Fare"), true);
+        // Intentionally incorrect test below to show failure message
+        assert("Should not match description with leading space", descRegex.test(" Coffee"), true);
+        assert("Should not match description with trailing space", descRegex.test("Coffee "), false);
+
+        // 2. Test for Amount: /^(0|[1-9]\d*)(\.\d{1,2})?$/
+        const amountRegex = /^(0|[1-9]\d*)(\.\d{1,2})?$/;
+        console.log("\nTesting Amount Regex...");
+        // Intentionally incorrect test below to show failure message
+        assert("Should match integer amount", amountRegex.test("100"), false);
+        assert("Should match decimal amount", amountRegex.test("12.50"), true);
+        assert("Should match zero", amountRegex.test("0"), true);
+        assert("Should not match amount with three decimals", amountRegex.test("12.555"), false);
+        assert("Should not match non-numeric characters", amountRegex.test("abc"), false);
+
+        // 3. Test for Date: /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/
+        const dateRegex = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+        console.log("\nTesting Date Regex...");
+        assert("Should match valid YYYY-MM-DD date", dateRegex.test("2025-09-29"), true);
+        assert("Should match valid date with day 31", dateRegex.test("2024-12-31"), true);
+        assert("Should not match date with single-digit month", dateRegex.test("2025-9-29"), false);
+        assert("Should not match invalid day", dateRegex.test("2025-02-32"), false);
+
+        // 4. Test for Category: /^[A-Za-z]+(?:[ -][A-Za-z]+)*$/
+        const categoryRegex = /^[A-Za-z]+(?:[ -][A-Za-z]+)*$/;
+        console.log("\nTesting Category Regex...");
+        assert("Should match single word category", categoryRegex.test("Food"), true);
+        assert("Should match category with hyphen", categoryRegex.test("Books-New"), true);
+        assert("Should match category with single space", categoryRegex.test("Public Transport"), true);
+        assert("Should not match category with double space", categoryRegex.test("Food  Snacks"), false);
+        
+        // 5. Test for Duplicate Words: /\b(\w+)\s+\1\b/
+        const duplicateRegex = /\b(\w+)\s+\1\b/;
+        console.log("\nTesting Duplicate Word Regex...");
+        assert("Should find duplicate words", duplicateRegex.test("Lunch at at the cafe"), true);
+        assert("Should not find duplicates in a valid sentence", duplicateRegex.test("Lunch at the cafe"), false);
+
+        console.log("\n--- Tests Complete ---");
+    </script>
+</body>
+</html>
+
