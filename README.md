@@ -9,7 +9,7 @@ This project was built as a summative assignment.
 
 **Video link** [https://www.youtube.com/watch?v=usGbaKeEy_0]
 
-**Wireframes and spec** [https://excalidraw.com/#json=JTS-iHvLmiTGKCdtCVbOF,VANVoldqXgc2HDw9Tcrj6g]
+**Wireframes and spec** [https://drive.google.com/file/d/1OA6HY0p8trO7gBS7gRXacqzB8DN7QTvK/view?usp=sharing]
 
 ---
 
